@@ -28,12 +28,12 @@ class NewVisitorTest(unittest.TestCase):
             'Enter a to-do item'
         )
 
-        # She types "buy peacock feathers" into a text box (Edith's hobby
+        # She types "Buy peacock feathers" into a text box (Edith's hobby
         # is tying fly-fishing lures)
         inputbox.send_keys('Buy peacock feathers')
 
-        # When she hits enter, the page updates, and the page lists
-        # "1: buy peacock feathers" as an item in a to-do list table
+        # When she hits enter, the page updates, and now the page lists
+        # "1: Buy peacock feathers" as an item in a to-do list table
         inputbox.send_keys(Keys.ENTER)
         time.sleep(1)
 
@@ -41,7 +41,7 @@ class NewVisitorTest(unittest.TestCase):
         rows = table.find_elements_by_tag_name('tr')
         self.assertTrue(
             any(row.text == '1: Buy peacock feathers' for row in rows),
-            "New to-do item did non appear in table"
+            "New to-do item did not appear in table"
         )
 
         # There is still a text box inviting her to add another item. She
@@ -51,14 +51,15 @@ class NewVisitorTest(unittest.TestCase):
 
         # The page updates again, and now shows both items on her list
 
-        # Edith wonders whether the site will remember her list. then she sees
-        # that the site has generated a unique url for her -- there is some
-        # explanatory text tothat effect.
+        # Edith wonders whether the site will remember her list. Then she sees
+        # that the site has generated a unique URL for her -- there is some
+        # explanatory text to that effect.
 
-        # She visits that url - her to-do list is still there.
+        # She visits that URL - her to-do list is still there.
 
-        # Satisfied she goes back to sleep
+        # Satisfied, she goes back to sleep
 
 
 if __name__ == '__main__':
     unittest.main(warnings='ignore')
+
