@@ -12,50 +12,53 @@ class NewVisitorTest(unittest.TestCase):
         self.browser.quit()
 
     def test_can_start_a_list_and_retrieve_it_later(self):
-        #Edith has heard about a cool new online to-do app. She goes to check out it's home page
+        # Edith has heard about a cool new online to-do app. She goes
+        # to check out its homepage
         self.browser.get('http://localhost:8000')
 
-        #She notices the page title and header mention to-do lists 
+        # She notices the page title and header mention to-do lists
         self.assertIn('To-Do', self.browser.title)
         header_text = self.browser.find_element_by_tag_name('h1').text
         self.assertIn('To-Do', header_text)
 
-        #She is immeadiatly invited to enter a todo item
+        # She is invited to enter a to-do item straight away
         inputbox = self.browser.find_element_by_id('id_new_item')
-
         self.assertEqual(
-                inputbox.get_attribute('placeholder'),
-                'Enter a to-do item'
+            inputbox.get_attribute('placeholder'),
+            'Enter a to-do item'
         )
-        
-        # She types "buy peakcock feathers" into a text box (Edith's hobbe is tying fly-fishing lures)
+
+        # She types "buy peacock feathers" into a text box (Edith's hobby
+        # is tying fly-fishing lures)
         inputbox.send_keys('Buy peacock feathers')
+
+        # When she hits enter, the page updates, and the page lists
+        # "1: buy peacock feathers" as an item in a to-do list table
+        inputbox.send_keys(Keys.ENTER)
         time.sleep(1)
 
         table = self.browser.find_element_by_id('id_list_table')
         rows = table.find_elements_by_tag_name('tr')
         self.assertTrue(
-                any(row.text == '1: Buy peacock feathers' for row in rows), "New to-do item did non appear in table"
+            any(row.text == '1: Buy peacock feathers' for row in rows),
+            "New to-do item did non appear in table"
         )
-        
-        #when she hits enter the page updates and the page lists:
-        #"1: buy peacock feathers" as an item in a to-do list
 
-        #There is still a texbox inviting her to add anther item.
-
-        #She enters "Use peacock feathers to make a fly"
-
-        #the page updates again showing both items in the list
-
-        #How will she save her list?
-        #the site generates a unique url for her
-        #there is some text explaining this
-
-        #she visits that url - her todo list is still there.
-
-        #satisfied she goes back to sleep
-
+        # There is still a text box inviting her to add another item. She
+        # enters "Use peacock feathers to make a fly" (Edith is very
+        # methodical)
         self.fail('Finish the test!')
+
+        # The page updates again, and now shows both items on her list
+
+        # Edith wonders whether the site will remember her list. then she sees
+        # that the site has generated a unique url for her -- there is some
+        # explanatory text tothat effect.
+
+        # She visits that url - her to-do list is still there.
+
+        # Satisfied she goes back to sleep
+
 
 if __name__ == '__main__':
     unittest.main(warnings='ignore')
