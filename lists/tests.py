@@ -63,7 +63,15 @@ class ListViewTest(TestCase):
         list_ = List.objects.create()
         response = self.client.get(f'/lists/{list_.id}/')
         self.assertTemplateUsed(response, 'list.html')
-    
+
+
+    def test_passes_correct_list_to_template(self):
+        other_list = List.objects.create()
+        correct_list = List.objects.create()
+        response = self.client.get(f'/lists/{correct_list.id}/')
+        self.assertEqual(response.context['list'], correct_list)
+
+
     def test_displays_all_items(self):
         correct_list = List.objects.create()
         Item.objects.create(text='itemey 1', list=correct_list)
@@ -79,12 +87,7 @@ class ListViewTest(TestCase):
         self.assertNotContains(response, 'other list item 1')
         self.assertNotContains(response, 'other list item 2')
 
-    def test_passes_correct_list_to_template(self):
-        other_list = List.objects.create()
-        correct_list = List.objects.create()
-        response = self.client.get(f'/lists/{correct_list.id}/')
-        self.assertEqual(response.context['list'], correct_list)
-
+    
 
 class ListAndItemModelsTest(TestCase):
 
@@ -114,3 +117,4 @@ class ListAndItemModelsTest(TestCase):
         self.assertEqual(first_saved_item.list, list_)
         self.assertEqual(second_saved_item.text, 'Item the second')
         self.assertEqual(second_saved_item.list, list_)
+
