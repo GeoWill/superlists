@@ -27,7 +27,7 @@ class NewListTest(TestCase):
 
 
 class NewItemTest(TestCase):
-    
+ 
     def test_can_save_a_POST_request_to_an_existing_list(self):
         other_list = List.objects.create()
         correct_list = List.objects.create()
@@ -42,6 +42,7 @@ class NewItemTest(TestCase):
         self.assertEqual(new_item.text, 'A new item for an existing list')
         self.assertEqual(new_item.list, correct_list)
 
+
     def test_redirects_to_list_view(self):
         other_list = List.objects.create()
         correct_list = List.objects.create()
@@ -52,6 +53,7 @@ class NewItemTest(TestCase):
         )
 
         self.assertRedirects(response, f'/lists/{correct_list.id}/')
+
 
 
 class ListViewTest(TestCase):
@@ -83,13 +85,13 @@ class ListViewTest(TestCase):
         self.assertEqual(response.context['list'], correct_list)
 
 
-class ListAndItemModelTest(TestCase):
+class ListAndItemModelsTest(TestCase):
 
     def test_saving_and_retrieving_items(self):
         list_ = List()
         list_.save()
 
-        first_item =Item()
+        first_item = Item()
         first_item.text = 'The first (ever) list item'
         first_item.list = list_
         first_item.save()
@@ -112,7 +114,7 @@ class ListAndItemModelTest(TestCase):
         self.assertEqual(second_saved_item.text, 'Item the second')
         self.assertEqual(second_saved_item.list, list_)
 
-        
+
 
 
 
