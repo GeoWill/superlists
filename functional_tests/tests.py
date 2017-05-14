@@ -84,12 +84,12 @@ class NewVisitorTest(StaticLiveServerTestCase):
 
         # Now a new user, Francis, comes along to the site.
 
-        ## We use a new browser session to make sure no information
+        ## We use a new browser session to make sure that no information
         ## of Edith's is coming through from cookies etc
         self.browser.quit()
         self.browser = webdriver.Firefox()
 
-        # Francis visits the home page. There is no sign of Edith's
+        # Francis visits the home page.  There is no sign of Edith's
         # list
         self.browser.get(self.live_server_url)
         page_text = self.browser.find_element_by_tag_name('body').text
@@ -115,9 +115,9 @@ class NewVisitorTest(StaticLiveServerTestCase):
 
         # Satisfied, they both go back to sleep
 
- 
+
     def test_layout_and_styling(self):
-        # Edith goes to the homepage
+        # Edith goes to the home page
         self.browser.get(self.live_server_url)
         self.browser.set_window_size(1024, 768)
 
@@ -130,7 +130,7 @@ class NewVisitorTest(StaticLiveServerTestCase):
         )
 
         # She starts a new list and sees the input is nicely
-        # Centred there too
+        # centered there too
         inputbox.send_keys('testing')
         inputbox.send_keys(Keys.ENTER)
         self.wait_for_row_in_list_table('1: testing')
