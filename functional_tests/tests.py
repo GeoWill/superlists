@@ -15,6 +15,7 @@ class NewVisitorTest(StaticLiveServerTestCase):
     def tearDown(self):
         self.browser.quit()
 
+
     def wait_for_row_in_list_table(self, row_text):
         start_time = time.time()
         while True:
@@ -65,42 +66,44 @@ class NewVisitorTest(StaticLiveServerTestCase):
         # The page updates again, and now shows both items on her list
         self.wait_for_row_in_list_table('2: Use peacock feathers to make a fly')
         self.wait_for_row_in_list_table('1: Buy peacock feathers')
+
         # Satisfied, she goes back to sleep
 
 
     def test_multiple_users_can_start_lists_at_different_urls(self):
-        # Edith start a new todo list
+        # Edith starts a new to-do list
         self.browser.get(self.live_server_url)
         inputbox = self.browser.find_element_by_id('id_new_item')
         inputbox.send_keys('Buy peacock feathers')
         inputbox.send_keys(Keys.ENTER)
         self.wait_for_row_in_list_table('1: Buy peacock feathers')
 
+        # She notices that her list has a unique URL
         edith_list_url = self.browser.current_url
         self.assertRegex(edith_list_url, '/lists/.+')
 
-        #Now a new user, Francis, comes along to the site.
+        # Now a new user, Francis, comes along to the site.
 
-        ## We use a new broser session to make sure no information
+        ## We use a new browser session to make sure no information
         ## of Edith's is coming through from cookies etc
         self.browser.quit()
         self.browser = webdriver.Firefox()
 
-        #Francis visits the home page. There is no sign of Edith's
-        #list
+        # Francis visits the home page. There is no sign of Edith's
+        # list
         self.browser.get(self.live_server_url)
         page_text = self.browser.find_element_by_tag_name('body').text
         self.assertNotIn('Buy peacock feathers', page_text)
         self.assertNotIn('make a fly', page_text)
 
         # Francis starts a new list by entering a new item. He
-        # is les interesting than Edith...
+        # is less interesting than Edith...
         inputbox = self.browser.find_element_by_id('id_new_item')
         inputbox.send_keys('Buy milk')
         inputbox.send_keys(Keys.ENTER)
         self.wait_for_row_in_list_table('1: Buy milk')
 
-        #Francis gets his own unique URL
+        # Francis gets his own unique URL
         francis_list_url = self.browser.current_url
         self.assertRegex(francis_list_url, '/lists/.+')
         self.assertNotEqual(francis_list_url, edith_list_url)
@@ -109,15 +112,16 @@ class NewVisitorTest(StaticLiveServerTestCase):
         page_text = self.browser.find_element_by_tag_name('body').text
         self.assertNotIn('Buy peacock feathers', page_text)
         self.assertIn('Buy milk', page_text)
+
         # Satisfied, they both go back to sleep
 
-    
+ 
     def test_layout_and_styling(self):
-        #Edith goes to the homepage
+        # Edith goes to the homepage
         self.browser.get(self.live_server_url)
         self.browser.set_window_size(1024, 768)
 
-        #she notices the input box is nicely centered
+        # She notices the input box is nicely centered
         inputbox = self.browser.find_element_by_id('id_new_item')
         self.assertAlmostEqual(
             inputbox.location['x'] + inputbox.size['width'] / 2,
@@ -125,8 +129,8 @@ class NewVisitorTest(StaticLiveServerTestCase):
             delta=10
         )
 
-        #she starts a new list and sees the input is nicely 
-        #centred there too
+        # She starts a new list and sees the input is nicely
+        # Centred there too
         inputbox.send_keys('testing')
         inputbox.send_keys(Keys.ENTER)
         self.wait_for_row_in_list_table('1: testing')
@@ -136,3 +140,4 @@ class NewVisitorTest(StaticLiveServerTestCase):
             512,
             delta=10
         )
+
