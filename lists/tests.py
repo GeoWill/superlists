@@ -27,7 +27,7 @@ class NewListTest(TestCase):
 
 
 class NewItemTest(TestCase):
- 
+
     def test_can_save_a_POST_request_to_an_existing_list(self):
         other_list = List.objects.create()
         correct_list = List.objects.create()
@@ -113,8 +113,3 @@ class ListAndItemModelsTest(TestCase):
         self.assertEqual(first_saved_item.list, list_)
         self.assertEqual(second_saved_item.text, 'Item the second')
         self.assertEqual(second_saved_item.list, list_)
-
-
-
-
-
